@@ -5,10 +5,19 @@ let bestFoodCategory = document.querySelector("nav .home");
 let sweetsCategory = document.querySelector("nav .sweets-category");
 let tableSelector = document.querySelector(".table-selector");
 let CategoryHeader = document.createElement("h2");
+let searchBtn = document.querySelector(".search-btn")
+searchInputEnter = document.querySelector(".search-item");
 foodCategory.addEventListener("click", openFoodMenu);
 drinksCategory.addEventListener("click", openDrinksMenu);
 bestFoodCategory.addEventListener("click", openHighlightsMenu);
 sweetsCategory.addEventListener("click", openSweetsMenu);
+searchBtn.addEventListener("click", GetCategoriesForSearch);
+searchInputEnter.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    GetCategoriesForSearch();
+  }
+});
 
 // Cart
 let cartBox = document.querySelector(".cart-box");
@@ -118,7 +127,46 @@ function generateCartCard(){
   generateCart(menuName, menuPrice);
   addToCart();
   }
-
+}
+//searchfunction
+function GetCategoriesForSearch(){
+  clearMenu();
+  let searchValue = document.querySelector(".search-item").value;
+  
+  const SearchList = [
+    "bbqs",
+    "best-foods",
+    "breads",
+    "burgers",
+    "chocolates",
+    "desserts",
+    "drinks",
+    "fried-chicken",
+    "ice-cream",
+    "pizzas",
+    "porks",
+    "sandwiches",
+    "sausages",
+    "steaks",
+  ];
+  for (const item of SearchList) {
+    for (let i = 0; i < db[item].length; i++) {
+      headerCategories("Searched Matches:");
+      if(db[item][i].name.toLowerCase().includes(searchValue.toLowerCase()) || db[item][i].dsc.toLowerCase().includes(searchValue.toLowerCase())){
+        let newArticle = document.createElement("article");
+        let foodContent = `<h2 class="product-title" translate="no">${db[item][i].name}</h2>
+        <figure>
+        <img class="product-img" src="${db[item][i].img}"/>
+        </figure>
+        <p>${db[item][i].dsc}</p>
+        <p class="price" translate="no">${db[item][i].price}</p>
+        <button class="add-cart buttonStyle">Add to cart</button>`;
+        newArticle.className = "card";
+        newArticle.innerHTML = foodContent;
+        main.append(newArticle);
+    }
+  }
+}
 }
 // Add event listener to the remove button in the cart
 function handelCartRemove() {
