@@ -12,7 +12,12 @@ drinksCategory.addEventListener("click", openDrinksMenu);
 bestFoodCategory.addEventListener("click", openHighlightsMenu);
 sweetsCategory.addEventListener("click", openSweetsMenu);
 searchBtn.addEventListener("click", GetCategoriesForSearch);
-searchInputEnter.addEventListener("keypress", GetCategoriesForSearch);
+searchInputEnter.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    GetCategoriesForSearch();
+  }
+});
 
 // Cart
 let cartBox = document.querySelector(".cart-box");
