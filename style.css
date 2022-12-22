@@ -40,7 +40,7 @@ body{
   display: block;
   text-transform: capitalize;
   text-align: center;
-  font-size: 3em;
+  font-size: 2em;
   margin: .3em;
 }
 .header-pic{
@@ -82,11 +82,11 @@ main{
    display: flex;
    flex-wrap: wrap;
     overflow: scroll;
-    height: 95%;
+    height: 70%;
 }
 
 .search-item{
-    padding: .5em;
+    padding: .2em;
     width: 15em;
     text-align: center;
 }
@@ -95,7 +95,7 @@ main{
   display: flex;
   justify-content: center;
   margin-top: 1em;
-  height: 3em;
+  height: 2em;
 }
 .search-container input, .addFundsInput {
   padding: 0.5em;
