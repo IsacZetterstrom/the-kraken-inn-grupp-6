@@ -29,7 +29,6 @@ let cartRemove = document.querySelector(".cart-remove");
 let cartQuantity = document.querySelector(".cart-quantity");
 let payBtns = document.querySelectorAll(".pay-btn");
 let WalletAmountCheck = true;
-// let quantity = cartQuantity.value
 let quantity = 0;
 let totalPrice = document.querySelector(".total-price");
 let total = 0;
@@ -74,7 +73,6 @@ function addToCart() {
   shoppingCounter.push(product);
   cartTotal.textContent = shoppingCounter.length;
 }
-
 //Alert to confirm choice
 function confirmChoice(event) {
 let confirmChoice;
@@ -84,7 +82,6 @@ if (confirm("Are you sure you want to order this?") == true) {
   confirmChoice = "You cancelled!";
 }
 }
-
 //creates an object from the item added to cart.
 function addToCartObject(name, price) {
   header = name;
@@ -104,11 +101,11 @@ function generateCart(menuName, price) {
   <p class="bill-title">${menuName}</p>
   <p class="bill-price">${price}</p>
   <input class="cart-quantity" type="number" value="1"/>
-</div>`;
+  </div>`;
   newArticle.innerHTML = cardContent;
   cartBox.append(newArticle);
 }
-
+//Takes the selected products information when its ordered, and sends it to generateCart.
 function generateCartCard(event){
   let article = event.currentTarget.parentNode;
   let menuName = "";
@@ -132,7 +129,6 @@ function generateCartCard(event){
 function GetCategoriesForSearch(){
   clearMenu();
   let searchValue = document.querySelector(".search-item").value;
-  
   const SearchList = [
     "bbqs",
     "best-foods",
@@ -169,10 +165,6 @@ function GetCategoriesForSearch(){
 }
 addToCartListener();
 }
-// Add event listener to the remove button in the cart
-function handelCartRemove() {
-  cartBox.style.display = "none";
-}
 // Add listener to pay button
 function addPayBtnListner(){
   for(i = 0; i < payBtns.length; i++) {
@@ -186,15 +178,6 @@ function PayBtnClicked(){
  cartBox.innerHTML = "";
  resetCart();
 }
-// cartRemove.addEventListener('click', handelCartRemove);
-
-// Add event listener to the change of product quantity, working on...
-// cartQuantity.addEventListener('change', function(event){
-//   let productPrice = document.querySelector(".product-price").textContent;
-//   total = total + productPrice * cartQuantity;
-// });
-// Choose which table you're sitting at
-
 //Creates the pop-up to set table number.
 function createTableSelector() {
   tableSelector.innerHTML = `
@@ -360,16 +343,13 @@ function openbreads() {
   clearMenu();
   generateFoodList("breads");
 }
-
 // translate
-
 function googleTranslateElementInit() {
   new google.translate.TranslateElement(
     { pageLanguage: "en" },
     "google_translate_element"
   );
 }
-
 function ChangeSwe(e) {
   var lang = document.getElementById("lang-sv").value;
   var selectField = document.querySelector("#google_translate_element select");
@@ -384,7 +364,6 @@ function ChangeSwe(e) {
     }
   }
 }
-
 function changeEng(e) {
   var lang = document.getElementById("lang-en").value;
   var selectField = document.querySelector("#google_translate_element select");
