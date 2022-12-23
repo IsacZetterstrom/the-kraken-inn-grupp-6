@@ -76,10 +76,10 @@ function addToCart() {
 }
 
 //Alert to confirm choice
-function confirmChoice() {
+function confirmChoice(event) {
 let confirmChoice;
 if (confirm("Are you sure you want to order this?") == true) {
-  generateCartCard();
+  generateCartCard(event);
 } else {
   confirmChoice = "You cancelled!";
 }
@@ -109,8 +109,8 @@ function generateCart(menuName, price) {
   cartBox.append(newArticle);
 }
 
-function generateCartCard(){
-  let article = event.target.parentNode;
+function generateCartCard(event){
+  let article = event.currentTarget.parentNode;
   let menuName = "";
   let menuPrice = 0;
   for (let i = 0; i < article.childNodes.length; i++) {
@@ -167,6 +167,7 @@ function GetCategoriesForSearch(){
     }
   }
 }
+addToCartListener();
 }
 // Add event listener to the remove button in the cart
 function handelCartRemove() {
@@ -228,7 +229,7 @@ function generateFoodList(category) {
     <figure>
     <img class="product-img" src="${db[category][i].img}"/>
     </figure>
-    <p>${db[category][i].dsc}</p>
+    <p translate= "no">${db[category][i].dsc}</p>
     <p class="price" translate="no">${db[category][i].price}</p>
     <button class="add-cart buttonStyle">Add to cart</button>`;
     newArticle.className = "card";
