@@ -6,18 +6,18 @@ let sweetsCategory = document.querySelector("nav .sweets-category");
 let tableSelector = document.querySelector(".table-selector");
 let CategoryHeader = document.createElement("h2");
 let searchBtn = document.querySelector(".search-btn")
-// searchInputEnter = document.querySelector(".search-item");
+searchInputEnter = document.querySelector(".search-item");
 foodCategory.addEventListener("click", openFoodMenu);
 drinksCategory.addEventListener("click", openDrinksMenu);
 bestFoodCategory.addEventListener("click", openHighlightsMenu);
 sweetsCategory.addEventListener("click", openSweetsMenu);
-// searchBtn.addEventListener("click", GetCategoriesForSearch);
-// searchInputEnter.addEventListener("keypress", function(event) {
-//   if (event.key === "Enter") {
-//     event.preventDefault();
-//     GetCategoriesForSearch();
-//   }
-// });
+ searchBtn.addEventListener("click", GetCategoriesForSearch);
+ searchInputEnter.addEventListener("keypress", function(event) {
+   if (event.key === "Enter") {
+     event.preventDefault();
+     GetCategoriesForSearch();
+   }
+ });
 
 // Cart
 let cartBox = document.querySelector(".cart-box");
@@ -29,7 +29,6 @@ let cartRemove = document.querySelector(".cart-remove");
 let cartQuantity = document.querySelector(".cart-quantity");
 let payBtns = document.querySelectorAll(".pay-btn");
 let WalletAmountCheck = true;
-// let quantity = cartQuantity.value
 let quantity = 0;
 let totalPrice = document.querySelector(".total-price");
 let total = 0;
@@ -74,17 +73,15 @@ function addToCart() {
   shoppingCounter.push(product);
   cartTotal.textContent = shoppingCounter.length;
 }
-
 //Alert to confirm choice
-function confirmChoice() {
+function confirmChoice(event) {
 let confirmChoice;
 if (confirm("Are you sure you want to order this?") == true) {
-  generateCartCard();
+  generateCartCard(event);
 } else {
   confirmChoice = "You cancelled!";
 }
 }
-
 //creates an object from the item added to cart.
 function addToCartObject(name, price) {
   header = name;
@@ -104,13 +101,13 @@ function generateCart(menuName, price) {
   <p class="bill-title">${menuName}</p>
   <p class="bill-price">${price}</p>
   <input class="cart-quantity" type="number" value="1"/>
-</div>`;
+  </div>`;
   newArticle.innerHTML = cardContent;
   cartBox.append(newArticle);
 }
-
-function generateCartCard(){
-  let article = event.target.parentNode;
+//Takes the selected products information when its ordered, and sends it to generateCart.
+function generateCartCard(event){
+  let article = event.currentTarget.parentNode;
   let menuName = "";
   let menuPrice = 0;
   for (let i = 0; i < article.childNodes.length; i++) {
@@ -129,48 +126,44 @@ function generateCartCard(){
   }
 }
 //searchfunction
-// function GetCategoriesForSearch(){
-//   clearMenu();
-//   let searchValue = document.querySelector(".search-item").value;
-  
-//   const SearchList = [
-//     "bbqs",
-//     "best-foods",
-//     "breads",
-//     "burgers",
-//     "chocolates",
-//     "desserts",
-//     "drinks",
-//     "fried-chicken",
-//     "ice-cream",
-//     "pizzas",
-//     "porks",
-//     "sandwiches",
-//     "sausages",
-//     "steaks",
-//   ];
-//   for (const item of SearchList) {
-//     for (let i = 0; i < db[item].length; i++) {
-//       headerCategories("Searched Matches:");
-//       if(db[item][i].name.toLowerCase().includes(searchValue.toLowerCase()) || db[item][i].dsc.toLowerCase().includes(searchValue.toLowerCase())){
-//         let newArticle = document.createElement("article");
-//         let foodContent = `<h2 class="product-title" translate="no">${db[item][i].name}</h2>
-//         <figure>
-//         <img class="product-img" src="${db[item][i].img}"/>
-//         </figure>
-//         <p>${db[item][i].dsc}</p>
-//         <p class="price" translate="no">${db[item][i].price}</p>
-//         <button class="add-cart buttonStyle">Add to cart</button>`;
-//         newArticle.className = "card";
-//         newArticle.innerHTML = foodContent;
-//         main.append(newArticle);
-//     }
-//   }
-// }
-// }
-// Add event listener to the remove button in the cart
-function handelCartRemove() {
-  cartBox.style.display = "none";
+function GetCategoriesForSearch(){
+  clearMenu();
+  let searchValue = document.querySelector(".search-item").value;
+  const SearchList = [
+    "bbqs",
+    "best-foods",
+    "breads",
+    "burgers",
+    "chocolates",
+    "desserts",
+    "drinks",
+    "fried-chicken",
+    "ice-cream",
+    "pizzas",
+    "porks",
+    "sandwiches",
+    "sausages",
+    "steaks",
+  ];
+  for (const item of SearchList) {
+    for (let i = 0; i < db[item].length; i++) {
+      headerCategories("Searched Matches:");
+      if(db[item][i].name.toLowerCase().includes(searchValue.toLowerCase()) || db[item][i].dsc.toLowerCase().includes(searchValue.toLowerCase())){
+        let newArticle = document.createElement("article");
+        let foodContent = `<h2 class="product-title" translate="no">${db[item][i].name}</h2>
+        <figure>
+        <img class="product-img" src="${db[item][i].img}"/>
+        </figure>
+        <p>${db[item][i].dsc}</p>
+        <p class="price" translate="no">${db[item][i].price}</p>
+        <button class="add-cart buttonStyle">Add to cart</button>`;
+        newArticle.className = "card";
+        newArticle.innerHTML = foodContent;
+        main.append(newArticle);
+    }
+  }
+}
+addToCartListener();
 }
 // Add listener to pay button
 function addPayBtnListner(){
@@ -185,15 +178,6 @@ function PayBtnClicked(){
  cartBox.innerHTML = "";
  resetCart();
 }
-// cartRemove.addEventListener('click', handelCartRemove);
-
-// Add event listener to the change of product quantity, working on...
-// cartQuantity.addEventListener('change', function(event){
-//   let productPrice = document.querySelector(".product-price").textContent;
-//   total = total + productPrice * cartQuantity;
-// });
-// Choose which table you're sitting at
-
 //Creates the pop-up to set table number.
 function createTableSelector() {
   tableSelector.innerHTML = `
@@ -228,7 +212,7 @@ function generateFoodList(category) {
     <figure>
     <img class="product-img" src="${db[category][i].img}"/>
     </figure>
-    <p>${db[category][i].dsc}</p>
+    <p translate= "no">${db[category][i].dsc}</p>
     <p class="price" translate="no">${db[category][i].price}</p>
     <button class="add-cart buttonStyle">Add to cart</button>`;
     newArticle.className = "card";
@@ -359,16 +343,13 @@ function openbreads() {
   clearMenu();
   generateFoodList("breads");
 }
-
 // translate
-
 function googleTranslateElementInit() {
   new google.translate.TranslateElement(
     { pageLanguage: "en" },
     "google_translate_element"
   );
 }
-
 function ChangeSwe(e) {
   var lang = document.getElementById("lang-sv").value;
   var selectField = document.querySelector("#google_translate_element select");
@@ -383,7 +364,6 @@ function ChangeSwe(e) {
     }
   }
 }
-
 function changeEng(e) {
   var lang = document.getElementById("lang-en").value;
   var selectField = document.querySelector("#google_translate_element select");
